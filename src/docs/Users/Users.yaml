@@ -1,0 +1,151 @@
+paths:
+  /api/users:
+    get:
+      summary: Obtiene todos los usuarios
+      tags:
+        - Users
+      responses:
+        "200":
+          description: Lista de usuarios obtenida con éxito
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  payload:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/User"
+        "500":
+          description: Error interno del servidor
+  /api/users/{uid}:
+    get:
+      summary: Obtiene un usuario por ID
+      tags:
+        - Users
+      parameters:
+        - name: uid
+          in: path
+          required: true
+          description: ID único del usuario
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Usuario encontrado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  payload:
+                    $ref: "#/components/schemas/User"
+        "404":
+          description: Usuario no encontrado
+        "500":
+          description: Error interno del servidor
+    put:
+      summary: Actualiza un usuario por ID
+      tags:
+        - Users
+      parameters:
+        - name: uid
+          in: path
+          required: true
+          description: ID único del usuario
+          schema:
+            type: string
+      requestBody:
+        description: Datos del usuario a actualizar
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/User"
+      responses:
+        "200":
+          description: Usuario actualizado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: User updated
+        "404":
+          description: Usuario no encontrado
+        "500":
+          description: Error interno del servidor
+    delete:
+      summary: Elimina un usuario por ID
+      tags:
+        - Users
+      parameters:
+        - name: uid
+          in: path
+          required: true
+          description: ID único del usuario
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Usuario eliminado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: User deleted
+        "404":
+          description: Usuario no encontrado
+        "500":
+          description: Error interno del servidor
+
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        _id:
+          type: string
+          description: ID único del usuario
+        first_name:
+          type: string
+          description: Nombre del usuario
+        last_name:
+          type: string
+          description: Apellido del usuario
+        email:
+          type: string
+          description: Email del usuario
+        role:
+          type: string
+          description: Rol del usuario
+        pets:
+          type: array
+          description: Lista de mascotas asociadas al usuario
+          items:
+            type: string
+      example:
+        _id: "670026da05e94266cb1fb279"
+        first_name: "Ali"
+        last_name: "Abernathy"
+        email: "Brenda_Hane28@hotmail.com"
+        role: "user"
+        password: "$2b$10$QravgKJuLpCSXGPlZdbAquOtNdS9Nt9rIK.WDWE7DcnwhtJEbNmhy"
+        pets: []
